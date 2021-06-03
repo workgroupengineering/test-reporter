@@ -1513,7 +1513,7 @@ function getTestsReport(ts, runIndex, suiteIndex, options) {
     const sections = [];
     const tsName = ts.name;
     const tsSlug = makeSuiteSlug(runIndex, suiteIndex);
-    const tsNameLink = `<a id="${tsSlug.id}" href="${options.baseUrl + tsSlug.link}">${tsName}</a>`;
+    const tsNameLink = `<a id="${tsSlug.id}" href="${options.baseUrl + tsSlug.link}">${makeTitle(tsName)}</a>`;
     const icon = getResultIcon(ts.result);
     sections.push(`### ${icon}\xa0${tsNameLink}`);
     sections.push('```');
@@ -1561,7 +1561,7 @@ function makeTitle(path) {
     const extesionPosition = path.lastIndexOf('.');
     if (extesionPosition > -1) {
         title = title.substring(0, extesionPosition);
-        title = title.replace('-', ' ');
+        title = title.split("-").join(" ");
     }
     return title;
 }
