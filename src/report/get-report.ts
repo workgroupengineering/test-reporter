@@ -139,12 +139,13 @@ function getTestRunsReport(testRuns: TestRunResult[], options: ReportOptions): s
     const tableData = testRuns.map((tr, runIndex) => {
       const time = formatTime(tr.time)
       const name = tr.path
+      const title = makeTitle(tr.path)
       const addr = options.baseUrl + makeRunSlug(runIndex).link
       const nameLink = link(name, addr)
       const passed = tr.passed > 0 ? `${tr.passed}${Icon.success}` : ''
       const failed = tr.failed > 0 ? `${tr.failed}${Icon.fail}` : ''
       const skipped = tr.skipped > 0 ? `${tr.skipped}${Icon.skip}` : ''
-      return [nameLink, passed, failed, skipped, time]
+      return [nameLink, passed, failed, skipped, time, title]
     })
 
     const resultsTable = table(
@@ -166,7 +167,7 @@ function getSuitesReport(tr: TestRunResult, runIndex: number, options: ReportOpt
   const sections: string[] = []
 
   const trSlug = makeRunSlug(runIndex)
-  const nameLink = `<a id="${trSlug.id}" href="${options.baseUrl + trSlug.link}">${tr.path}</a>`
+  const nameLink = `<a id="${trSlug.id}" href="${options.baseUrl + trSlug.link}">${makeTitle(tr.path)}</a>`
   const icon = getResultIcon(tr.result)
   sections.push(`## ${icon}\xa0${nameLink}`)
 
@@ -270,4 +271,14 @@ function getResultIcon(result: TestExecutionResult): string {
     default:
       return ''
   }
+}
+
+function makeTitle(path: string): string {
+  let title = path
+  const extesionPosition = path.lastIndexOf('.')
+  if (extesionPosition > -1) {
+    title = title.substring(0, extesionPosition)
+    title = title.replace('-', ' ')
+  }
+  return title
 }

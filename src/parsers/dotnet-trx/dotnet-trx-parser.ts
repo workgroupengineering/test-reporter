@@ -73,7 +73,7 @@ export class DotnetTrxParser implements TestParser {
       }
     }
 
-    const unitTestsResults = trx.TestRun.Results.flatMap(r => r.UnitTestResult).flatMap(result => ({
+    const unitTestsResults = trx.TestRun.Results.flatMap((r: any) => r.UnitTestResult).flatMap(result => ({
       result,
       test: unitTests[result.$.testId]
     }))

@@ -60,7 +60,7 @@ export class ArtifactProvider implements InputProvider {
       return {}
     }
 
-    const artifacts = resp.data.artifacts.filter(a => this.artifactNameMatch(a.name))
+    const artifacts = resp.data.artifacts.filter((a: any) => this.artifactNameMatch(a.name))
     if (artifacts.length === 0) {
       core.warning(`No artifact matches ${this.artifact}`)
       return {}
