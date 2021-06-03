@@ -1623,14 +1623,13 @@ function getTestRunsReport(testRuns, options) {
     if (testRuns.length > 1 || options.onlySummary) {
         const tableData = testRuns.map((tr, runIndex) => {
             const time = (0, markdown_utils_1.formatTime)(tr.time);
-            const name = tr.path;
-            const title = makeTitle(tr.path);
+            const name = makeTitle(tr.path);
             const addr = options.baseUrl + makeRunSlug(runIndex).link;
             const nameLink = (0, markdown_utils_1.link)(name, addr);
             const passed = tr.passed > 0 ? `${tr.passed}${markdown_utils_1.Icon.success}` : '';
             const failed = tr.failed > 0 ? `${tr.failed}${markdown_utils_1.Icon.fail}` : '';
             const skipped = tr.skipped > 0 ? `${tr.skipped}${markdown_utils_1.Icon.skip}` : '';
-            return [nameLink, passed, failed, skipped, time, title];
+            return [nameLink, passed, failed, skipped, time];
         });
         const resultsTable = (0, markdown_utils_1.table)(['Report', 'Passed', 'Failed', 'Skipped', 'Time'], [markdown_utils_1.Align.Left, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right], ...tableData);
         sections.push(resultsTable);
@@ -1735,7 +1734,7 @@ function makeTitle(path) {
     const extesionPosition = path.lastIndexOf('.');
     if (extesionPosition > -1) {
         title = title.substring(0, extesionPosition);
-        title = title.replace('-', ' ');
+        title = title.split('-').join(' ');
     }
     return title;
 }
