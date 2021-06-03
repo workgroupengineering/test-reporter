@@ -135,14 +135,13 @@ function getTestRunsReport(testRuns: TestRunResult[], options: ReportOptions): s
   if (testRuns.length > 1) {
     const tableData = testRuns.map((tr, runIndex) => {
       const time = formatTime(tr.time)
-      const name = tr.path
-      const title = makeTitle(tr.path)
+      const name = makeTitle(tr.path)
       const addr = options.baseUrl + makeRunSlug(runIndex).link
       const nameLink = link(name, addr)
       const passed = tr.passed > 0 ? `${tr.passed}${Icon.success}` : ''
       const failed = tr.failed > 0 ? `${tr.failed}${Icon.fail}` : ''
       const skipped = tr.skipped > 0 ? `${tr.skipped}${Icon.skip}` : ''
-      return [nameLink, passed, failed, skipped, time, title]
+      return [nameLink, passed, failed, skipped, time]
     })
 
     const resultsTable = table(

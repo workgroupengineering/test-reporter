@@ -1451,14 +1451,13 @@ function getTestRunsReport(testRuns, options) {
     if (testRuns.length > 1) {
         const tableData = testRuns.map((tr, runIndex) => {
             const time = markdown_utils_1.formatTime(tr.time);
-            const name = tr.path;
-            const title = makeTitle(tr.path);
+            const name = makeTitle(tr.path);
             const addr = options.baseUrl + makeRunSlug(runIndex).link;
             const nameLink = markdown_utils_1.link(name, addr);
             const passed = tr.passed > 0 ? `${tr.passed}${markdown_utils_1.Icon.success}` : '';
             const failed = tr.failed > 0 ? `${tr.failed}${markdown_utils_1.Icon.fail}` : '';
             const skipped = tr.skipped > 0 ? `${tr.skipped}${markdown_utils_1.Icon.skip}` : '';
-            return [nameLink, passed, failed, skipped, time, title];
+            return [nameLink, passed, failed, skipped, time];
         });
         const resultsTable = markdown_utils_1.table(['Report', 'Passed', 'Failed', 'Skipped', 'Time'], [markdown_utils_1.Align.Left, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right], ...tableData);
         sections.push(resultsTable);
@@ -1513,7 +1512,7 @@ function getTestsReport(ts, runIndex, suiteIndex, options) {
     const sections = [];
     const tsName = ts.name;
     const tsSlug = makeSuiteSlug(runIndex, suiteIndex);
-    const tsNameLink = `<a id="${tsSlug.id}" href="${options.baseUrl + tsSlug.link}">${makeTitle(tsName)}</a>`;
+    const tsNameLink = `<a id="${tsSlug.id}" href="${options.baseUrl + tsSlug.link}">${tsName}</a>`;
     const icon = getResultIcon(ts.result);
     sections.push(`### ${icon}\xa0${tsNameLink}`);
     sections.push('```');
@@ -1561,7 +1560,7 @@ function makeTitle(path) {
     const extesionPosition = path.lastIndexOf('.');
     if (extesionPosition > -1) {
         title = title.substring(0, extesionPosition);
-        title = title.split("-").join(" ");
+        title = title.split('-').join(' ');
     }
     return title;
 }
