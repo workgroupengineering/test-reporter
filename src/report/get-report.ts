@@ -278,7 +278,7 @@ function makeTitle(path: string): string {
   const extesionPosition = path.lastIndexOf('.')
   if (extesionPosition > -1) {
     title = title.substring(0, extesionPosition)
-    title = title.replace('-', ' ')
+    title = title.split('-').join(' ')
   }
   return title
 }
