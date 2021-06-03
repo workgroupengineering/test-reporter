@@ -1454,12 +1454,13 @@ function getTestRunsReport(testRuns, options) {
         const tableData = testRuns.map((tr, runIndex) => {
             const time = markdown_utils_1.formatTime(tr.time);
             const name = tr.path;
+            const title = makeTitle(tr.path);
             const addr = options.baseUrl + makeRunSlug(runIndex).link;
             const nameLink = markdown_utils_1.link(name, addr);
             const passed = tr.passed > 0 ? `${tr.passed}${markdown_utils_1.Icon.success}` : '';
             const failed = tr.failed > 0 ? `${tr.failed}${markdown_utils_1.Icon.fail}` : '';
             const skipped = tr.skipped > 0 ? `${tr.skipped}${markdown_utils_1.Icon.skip}` : '';
-            return [nameLink, passed, failed, skipped, time];
+            return [nameLink, passed, failed, skipped, time, title];
         });
         const resultsTable = markdown_utils_1.table(['Report', 'Passed', 'Failed', 'Skipped', 'Time'], [markdown_utils_1.Align.Left, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right, markdown_utils_1.Align.Right], ...tableData);
         sections.push(resultsTable);
@@ -1473,7 +1474,7 @@ function getTestRunsReport(testRuns, options) {
 function getSuitesReport(tr, runIndex, options) {
     const sections = [];
     const trSlug = makeRunSlug(runIndex);
-    const nameLink = `<a id="${trSlug.id}" href="${options.baseUrl + trSlug.link}">${tr.path}</a>`;
+    const nameLink = `<a id="${trSlug.id}" href="${options.baseUrl + trSlug.link}">${makeTitle(tr.path)}</a>`;
     const icon = getResultIcon(tr.result);
     sections.push(`## ${icon}\xa0${nameLink}`);
     const time = markdown_utils_1.formatTime(tr.time);
@@ -1558,6 +1559,15 @@ function getResultIcon(result) {
         default:
             return '';
     }
+}
+function makeTitle(path) {
+    let title = path;
+    const extesionPosition = path.lastIndexOf('.');
+    if (extesionPosition > -1) {
+        title = title.substring(0, extesionPosition);
+        title = title.replace('-', ' ');
+    }
+    return title;
 }
 
 
